@@ -1,7 +1,9 @@
-import React from "react";
-import { NavLink } from "react-router";
+import React, { use } from "react";
+import { Link, NavLink } from "react-router";
+import { AuthContext } from "../../Contex/AuthContext";
 
 const Navber = () => {
+  const { user, logOut } = use(AuthContext);
   const links = (
     <>
       <li>
@@ -10,6 +12,17 @@ const Navber = () => {
       <li>
         <NavLink to={"/allProducts"}>All Products</NavLink>
       </li>
+
+      {user && (
+        <>
+          <li>
+            <NavLink to={"/my-bids"}>My Bids</NavLink>
+          </li>
+          <li>
+            <NavLink to={"/my-products"}>MY Products</NavLink>
+          </li>
+        </>
+      )}
     </>
   );
   return (
@@ -47,7 +60,15 @@ const Navber = () => {
           <ul className="menu menu-horizontal px-1">{links}</ul>
         </div>
         <div className="navbar-end">
-          <a className="btn">Button</a>
+          {user ? (
+            <button onClick={logOut} className="btn">
+              LogOut
+            </button>
+          ) : (
+            <Link to={"/login"}>
+              <button className="btn">SignIN</button>
+            </Link>
+          )}
         </div>
       </div>
     </div>

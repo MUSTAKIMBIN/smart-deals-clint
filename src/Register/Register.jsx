@@ -1,7 +1,10 @@
-import React from "react";
+import React, { use } from "react";
 import { Link } from "react-router";
+import { AuthContext } from "../Contex/AuthContext";
 
 const Register = () => {
+  const { signInWithGoogle } = use(AuthContext);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const form = e.target;
@@ -10,6 +13,12 @@ const Register = () => {
     const password = form.password.value;
     const imageUrl = form.imageUrl.value;
     console.log(name, email, password, imageUrl);
+  };
+
+  const handleGoogleSignIn = () => {
+    signInWithGoogle()
+      .then((res) => console.log(res.user))
+      .catch((err) => console.log(err));
   };
   return (
     <div className="flex justify-center items-center   bg-base-200">
@@ -86,7 +95,10 @@ const Register = () => {
 
         <div className="divider my-4">OR</div>
 
-        <button className="btn btn-outline w-full flex items-center justify-center gap-2">
+        <button
+          onClick={handleGoogleSignIn}
+          className="btn btn-outline w-full flex items-center justify-center gap-2"
+        >
           <img
             src="https://www.svgrepo.com/show/475656/google-color.svg"
             alt="Google"
